@@ -1,7 +1,7 @@
 {
   "name": "galgal",
   "version": "0.1",
-  "description": "Python web server framework, based on tornado. galgal=whirlwind.",
+  "description": "Full-stack web server framework, based on tornado. galgal=whirlwind.",
   "url": "https://github.com/BlackEarth/galgal",
   "author": "Sean Harrison",
   "author_email": "sah@blackearthgroup.com",
