@@ -1,0 +1,7 @@
+{% extends '../layout.html' %}
+
+{% block body_onLoad %}document.getElementById('user_email').focus();{% end %}
+
+{% block body %}
+{% include 'login_form.html' %}
+{% end %}

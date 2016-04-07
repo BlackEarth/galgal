@@ -1,0 +1,10 @@
+Dear {{user.email}}:
+
+Your password has been reset; to login to {{c.config.Site.name}}, 
+please use following password:
+
+  {{user.password}}
+  
+Best regards,
+{{c.config.Email.customer_service or ''}}
+{{c.config.Site.name or ''}}

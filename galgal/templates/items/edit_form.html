@@ -1,0 +1,12 @@
+
+<form id="edit_form" method="post">
+{% module xsrf_form_html() %}
+<input type="hidden" name="ret" value="{{url.qargs.ret or ''}}"/>
+<input type="hidden" name="item_id" value="{{c.item.id or ''}}"/>
+<input type="hidden" name="item_parent_id" value="{{url.qargs.par or ''}}"/>
+<input type="hidden" name="item_typename" value="{{url.qargs.typ or 'Item'}}"/>
+<h1><input id="item_title" name="item_title" type="text" value="{{c.item.title or 'title'}}"/></h1>
+<p><input id="item_ref" name="item_ref" type="text" value="{{c.item.ref or 'references; and; topics'}}"/></p>
+<p><textarea id="item_body" name="item_body">{{c.item.body or ''}}</textarea></p>
+<p><input id="edit_form_submit" type="submit" value="Save"/> or <a id="edit_form_cancel" href="{{url.qargs.ret or '/users/'+session.user.username}}">Cancel</a></p>
+</form>

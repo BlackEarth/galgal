@@ -1,0 +1,16 @@
+{% extends 'view.html' %}
+
+{% block actions_pane %}
+	{% if session.user.username == c.item.owner_name %}
+<div class="actions_pane">
+<form method="post">
+{% module xsrf_form_html() %}
+<input type="hidden" name="ret" value="{{url.qargs.ret or ''}}"/>
+<input type="hidden" name="item_id" value="{{c.item.id or ''}}"/>
+<p>Delete this item? There is no undo for this action.</p>
+<p><input class="warning" type="submit" name="delete" value="Delete"/> 
+	or <a href="{{url.qargs.ret or config.Site.url+'/users/'+session.user.username}}">Cancel</a></p>
+</form>
+</div>
+	{% end %}
+{% end %}

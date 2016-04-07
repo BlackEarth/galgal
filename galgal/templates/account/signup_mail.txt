@@ -1,0 +1,17 @@
+Dear {{c.user.username}}:
+
+Thank you for signing up with {{config.Site.name}}. {% if c.user.verified is None %} Before your next login, please visit the following link to verify your account:
+
+  {{config.Site.url}}/acct/verify/{{c.user.username}}/{{c.user.salt}}{% end %}
+  
+Your login information is as follows:
+
+  username: {{c.user.username}}
+  password: {{c.user.password or '[as given]'}}
+
+If you do not wish to continue using the site, or if this notification is in
+error, please accept our apologies and be assured that we will not initiate
+further contact, because we hate spam as much as you do.
+
+Best regards,
+{{config.Email.customer_service or 'The Biblicity Team'}}

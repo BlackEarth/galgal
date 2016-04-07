@@ -1,0 +1,27 @@
+<h1>{{config.Site.name or ''}} Login</h1>
+<form action="{{config.Site.url}}/acct/login{% if url.qargs.ret is not None %}?ret={{url.qargs.ret}}{% end %}" method="POST">
+{% module xsrf_form_html() %}
+<input type="hidden" name="ret" value="{{url.qargs.ret or ''}}"/>
+<table>
+  <tr>
+    <td>Email:</td>
+    <td><input type="text" id="user_email" name="user_email" value="{{c.user and c.user.email or ''}}"/></td>
+  </tr>
+  <tr>
+    <td>Password:</td>
+    <td><input type="password" name="user_password"/></td>
+  </tr>
+{#  <tr>
+    <td colspan="2"><input type="checkbox" name="keep_signed_in"/> Keep me signed in for a month.</td>
+  </tr> 
+#}
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="submit" value="Login"/></td>
+  </tr>
+</table>
+</form>
+<p><a href="{{config.Site.url}}/acct/resetpwd">Forgot your password? Click here to reset it.</a></p>
+{#
+<p><a href="{{config.Site.url}}/acct/signup">Need an account? Click here to sign up.</a></p>
+#}

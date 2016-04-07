@@ -1,0 +1,23 @@
+<script type="text/javascript" src="{{config.Site.url}}{{static_url('js/jquery.js')}}"></script>
+<script type="text/javascript" src="{{config.Site.url}}{{static_url('js/jquery-cookie.js')}}"></script>
+<script type="text/javascript" src="{{config.Site.url}}{{static_url('js/sayt.jquery.js')}}"></script>
+{# <script type="text/javascript" src="{{config.Site.url}}{{static_url('js/ckeditor/ckeditor.js')}}"></script>
+<script type="text/javascript" src="{{config.Site.url}}{{static_url('js/ckeditor/adapters/jquery.js')}}"></script> #}
+<script type="text/javascript" src="{{config.Site.url}}{{static_url('js/biblicity.js')}}"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    // Save As You Type (sayt) -- https://github.com/BenGriffiths/jquery-save-as-you-type
+    $('#edit_form').sayt({'days': 7});
+
+    // ** Don't erase sayt data when people click "Save" - the data is needed exactly then, 
+    // ** until it is successfully stored in the server. Instead, delete the cookie on the server 
+    // ** after the save has been successfully committed. -SAH 2013-07-11 
+
+    // DO erase the sayt data when the user clicks 'Cancel' = they don't want it.
+    $('#edit_form_cancel').click(function() {
+      $('#edit_form').sayt({'erase': true});
+    });
+  });
+
+</script>

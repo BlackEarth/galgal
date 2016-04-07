@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+	<head>
+		{% block head_meta %} 
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
+		{% end %}
+		{% block head_scripts %}{% end %}
+		<link rel="stylesheet" href="{{static_url('css/biblicity.css')}}" type="text/css" />
+		{% block head_links %}{% end %}
+		<title>{% block title %}Biblicity{% end %}</title>
+	</head>
+	<body onLoad="{% block body_onLoad %}{% end %}">
+<div id="body">
+<div id="header">
+	<div id="logo"><img src="{{static_url('img/biblicity-logo-small.png')}}"/></div>
+	<div id="acct">
+		{% if session.user is not None %}
+		<a href="{{config.Site.url}}/users/{{session.user.username}}">{{session.user.username}}</a>
+		| <a href="{{config.Site.url}}/acct/logout">logout</a>
+		{% else %}
+		<a href="{{config.Site.url}}/acct/login">login</a>
+		{% end %}
+	</div>
+	<!-- <div id="tagline">Bible reading community</div> -->
+</div>
+<div id="status_pane">
+	{% if session.notice %}<div class="notice">{{session.pop('notice')}}</div>{% end %}
+	{% if session.warning %}<div class="warning">{{session.pop('warning')}}</div>{% end %}
+	{% if session.error %}<div class="error">{{session.pop('error')}}</div>{% end %}
+</div>
+{% block actions_pane %}
+{% end %}
+
+{% block body %}
+{% end %}
+</div>
+	</body>
+</html>

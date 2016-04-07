@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+{% block body %}
+<h1>Hello, “{{url.qargs.name or 'World'}}”</h1>
+
+<h2>Config</h2>
+{{config}}
+
+<h2>Request</h2>
+{{request}}
+
+<h2>Other</h2>
+url: {{url}} {{repr(url)}}<br/>
+{% end %}

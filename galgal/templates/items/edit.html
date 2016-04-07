@@ -1,0 +1,15 @@
+{% extends '../layout.html' %}
+
+{% block head_scripts %}
+{% include 'edit_scripts.html' %}
+{% end %}
+
+{% block body_onLoad %}{{(
+	c.item.title is None 
+	and "document.getElementById('item_title').select();" 
+	or "document.getElementById('item_title').focus();"
+)}}{% end %}
+
+{% block body %}
+{% module Template('items/edit_form.html', **globals()) %}
+{% end %}

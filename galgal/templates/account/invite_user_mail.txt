@@ -1,0 +1,10 @@
+Hi! You've been invited by {{c.invitation.byuser.displayname()}} to come join the Biblicity Bible reading community.
+
+To accept the invitation, click the following link:
+
+	{{config.Site.url}}/acct/signup?key={{c.invitation.key}}
+
+I hope you'll come check it out!
+
+Blessings,
+{{config.Email.customer_service}}

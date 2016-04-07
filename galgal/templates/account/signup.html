@@ -1,0 +1,10 @@
+{% extends '../layout.html' %}
+
+{% block body_onLoad %}document.getElementById('user_email').focus();{% end %}
+
+{% block body %}
+{% set title='Sign Up' %}
+<h1>{{title}}</h1>
+<p>Thanks for coming! We are committed to your privacy and safety online. We promise never to sell your information or send you email without your permission, because we hate spam just as much as you do.</p>
+{% module Template('acct/signup_form.html', title=title, **globals()) %}
+{% end %}

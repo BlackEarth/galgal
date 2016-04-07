@@ -1,0 +1,56 @@
+{% extends '../layout.html' %}
+
+{% block actions_pane %}
+	{% if session.user.username == c.item.owner_name %}
+<div class="actions_pane">
+<p><a href="{{url}}/edit?ret={{url}}">Edit Item</a></p>
+<p><a href="{{url}}/del?ret={{url}}">Delete Item</a></p>
+</div>
+	{% end %}
+{% end %}
+
+{% block body %}
+{% from tornado.escape import xhtml_unescape %}
+<div class="{{c.item.typename}}">
+	
+	<h1>{% raw c.item.title or c.item.id %}</h1>
+	{% if c.item.ref is not None %}<p class="ref">{{c.item.ref}}</p>{% end %}
+	<p class="byline">{{c.item.updated}} by <a href="{{config.Site.url}}/users/{{c.item.owner_name}}">{{c.item.owner_name}}</a></p>
+
+	<div class="item_body">
+		{% raw c.item.body_html() %}
+	</div>
+	
+	{% if c.item.typename != 'Comment' %}
+	<div class="item_comments">
+	<h2>Comments</h2>
+
+	{% if len(c.item.children)==0 %}
+	<p>There are no comments.</p>
+	{% end if %}
+
+	{% for child in c.item.children %}
+	<div class="{{child.typename}}">
+		
+		<h1>{% raw child.title or '' %}
+			{% if child.owner_name==session.user.username %}
+			[ <a href="{{config.Site.url}}/items/{{child.id}}/edit?ret={{url}}">e</a>
+			| <a href="{{config.Site.url}}/items/{{child.id}}/del?ret={{url}}">x</a> ]
+			{% end %}
+		</h1>
+		<p class="byline">{{child.updated}} by <a href="{{config.Site.url}}/users/{{child.owner_name}}">{{child.owner_name}}</a></p>
+
+		<div class="item_body">
+			{% raw child.body_html() %}
+		</div>
+	</div>
+	{% end %}
+
+	<div class="actions_pane">
+		<p><a href="{{config.Site.url}}/items/new?par={{c.item.id}}&amp;typ=Comment&amp;ret={{url}}">Add Comment</a></p>
+	</div>
+	</div>
+</div>
+
+{% end %}
+{% end %}

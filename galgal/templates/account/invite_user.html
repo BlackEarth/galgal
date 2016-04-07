@@ -1,0 +1,40 @@
+{% extends '../layout.html' %}
+
+{% block body_onLoad %}document.getElementById('invitation_email').focus();{% end %}
+
+{% block body %}
+<h1>Invite Someone</h1>
+<form method="post">
+{% module xsrf_form_html() %}
+<input type="hidden" name="invitation_by" value="{{session.user.username}}">
+<table>
+  <tr>
+    <td>Email:</td>
+    <td><input type="text" id="invitation_email" name="invitation_email" value="{{c.invitation and c.invitation.email or ''}}"/></td>
+    {% if c.errors and c.errors.email %}
+    <td class="note error">{{' '.join(c.errors.email)}}</td>
+    {% else %}
+    <td class="note"></td>
+    {% end %}
+  </tr>
+  {% if session.user and session.user.role=='admin' %}
+  <tr>
+    <td>Role:</td>
+    <td>
+      <select name="invitation_role">
+        {% for role in db.session.query(db.Role).all() %}
+        <option value="{{role.name}}"{% if role.name==c.invitation.role or (role.name=='member' and c.invitation.role in [None, '']) %}selected="selected"{% end %}>{{role.name}}</option>
+        {% end %}
+      </select>
+    </td>
+  </tr>
+  {% else %}
+  <input type="hidden" name="invitation_role" value="{{c.invitation.role or 'user'}}"/>
+  {% end %}
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="submit" value="Send Invitation"/></td>
+  </tr>
+</table>
+</form>
+{% end %}

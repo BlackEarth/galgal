@@ -1,0 +1,27 @@
+{% extends '../layout.html' %}
+
+{% block actions_pane %}
+<div class="actions_pane">
+<p><a href="{{config.Site.url}}/items/new?ret={{url}}">New Item</a></p>
+{% if session.user.role=='admin' %}
+<p><a href="{{config.Site.url}}/acct/invite_user">Invite Someone</a></p>
+{% end %}
+</div>
+{% end %}
+
+{% block body %}
+<h1>{{c.user.displayname()}}</h1>
+<h2>Recent Items</h2>
+{% set recent_items = c.user.items; recent_items.reverse() %}
+{% for item in recent_items[:50] %}
+<p>	[ <a href="{{config.Site.url}}/items/{{item.id}}/edit?ret={{url}}">e</a>
+	| <a href="{{config.Site.url}}/items/{{item.id}}/del?ret={{url}}">x</a> ]
+	<a href="{{config.Site.url}}/items/{{item.id}}">{{item.title or item.id}}</a> 
+	({{item.ref}}{% if item.parent_id is not None %}
+		on <a href="{{config.Site.url}}/items/{{item.id}}">{{item.parent.title or item.parent.id}}</a>{% end %})
+	({{item.inserted}})</p>
+{% end %}
+{% if len(recent_items)==0 %}
+<p>There are no items to display.</p>
+{% end %}
+{% end %}

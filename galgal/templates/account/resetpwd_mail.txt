@@ -1,0 +1,8 @@
+Hi! To reset your Biblicity password, please click the following link:
+
+	{{config.Site.url}}/acct/newpwd/{{user.username}}/{{user.password_reset_code()}}
+
+If you don't need to reset your password, you can ignore this link and nothing will be changed.
+
+Thanks,
+{{config.Email.customer_service or 'The Biblicity Team'}}

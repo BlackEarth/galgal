@@ -1,0 +1,15 @@
+{% extends '../layout.html' %}
+
+{% block body %}
+<h1>Account</h1>
+	{% if session.user %}
+<h2><a href="{{config.Site.url}}/acct/logout">Log out</a></h2>
+		{% if session.user.role == 'admin' %}
+<h2><a href="{{config.Site.url}}/acct/invite_user">Invite User</a></h2>
+		{% end %}
+	{% else %}
+{#<h2><a href="{{config.Site.url}}/acct/signup">Signup</a></h2>#}
+<h2><a href="{{config.Site.url}}/acct/login">Login</a></h2>
+<h2><a href="{{config.Site.url}}/acct/resetpwd">Reset Password</a></h2>
+	{% end %}{#end if#}
+{% end %}{#end body#}
