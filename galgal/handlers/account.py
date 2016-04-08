@@ -1,10 +1,11 @@
 
 import tornado.web
 from bl.dict import Dict
-from .application import RequestHandler
-from amp.emailer import Emailer
+from bmail.emailer import Emailer
 
-class SignupHandler(RequestHandler):
+from .handler import Handler
+
+class SignupHandler(Handler):
     def get(self):
         c = self.c
         if self.url.qargs.key is not None:
@@ -52,7 +53,7 @@ class SignupHandler(RequestHandler):
         self.render(URL+'/signup.html')
 
 
-class LoginHandler(RequestHandler):
+class LoginHandler(Handler):
     @tornado.web.removeslash
     def get(self):
         self.render(URL+'/login.html')
@@ -80,8 +81,8 @@ class LoginHandler(RequestHandler):
             self.session.error = "We're sorry, there was a problem with your login. Have you verified your email address? Please refer to your login information and try again."
             self.render(URL + '/login.html')
 
-class InviteUserHandler(RequestHandler):
-    @RequestHandler.require_admin
+class InviteUserHandler(Handler):
+    @Handler.require_admin
     @tornado.web.removeslash
     def get(self):
         c = self.c
@@ -89,7 +90,7 @@ class InviteUserHandler(RequestHandler):
         c.invitation = Dict()
         self.render(URL+'/invite_user.html')
 
-    @RequestHandler.require_admin
+    @Handler.require_admin
     @tornado.web.removeslash
     def post(self):
         c = self.c
@@ -115,7 +116,7 @@ class InviteUserHandler(RequestHandler):
                 # **TODO: This should trigger an email to the support team.**
         self.render(URL+'/invite_user.html')
 
-class VerifyUserHandler(RequestHandler):
+class VerifyUserHandler(Handler):
     @tornado.web.removeslash
     def get(self, username, code):
         self.db.init_session()
@@ -131,7 +132,7 @@ class VerifyUserHandler(RequestHandler):
             # **TODO: Notify support! For some reason the verification code is not correct.**
             self.redirect('/')
 
-class ResetPasswordHandler(RequestHandler):
+class ResetPasswordHandler(Handler):
     @tornado.web.removeslash
     def get(self):
         self.render(URL+'/resetpwd.html')
@@ -154,7 +155,7 @@ class ResetPasswordHandler(RequestHandler):
                 self.session.error = "Sorry, the password reset email could not be sent. Please try again later."
                 # **TODO: Notify support! The email should have been sent.**
 
-class NewPasswordHandler(RequestHandler):
+class NewPasswordHandler(Handler):
     @tornado.web.removeslash
     def get(self, username, code):
         self.db.init_session()
@@ -180,7 +181,7 @@ class NewPasswordHandler(RequestHandler):
             self.session.error = "Sorry, your password could not be changed at this time. Please try again later."
             self.redirect('/')
 
-class LogoutHandler(RequestHandler):
+class LogoutHandler(Handler):
     @tornado.web.removeslash
     def get(self):
         self.clear_session()

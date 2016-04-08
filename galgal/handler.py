@@ -1,47 +1,30 @@
-import tornado.web
+
 import functools
 from importlib import import_module
-from bl.dict import Dict
+import tornado.web
+from bl.dict import Dict, StringDict
 from bl.url import URL
-import amp.session
-import biblicity, biblicity.db
 
-class RequestHandler(tornado.web.RequestHandler):
+import .session
 
-    def initialize(self):
-        self.config = biblicity.config
-        self.debug = self.config.Tornado.debug
-        self.url = URL(self.request.uri, host=self.config.Site.host, scheme=self.config.Site.scheme)
-        self.c = Dict(status=Dict())
-        self.db = biblicity.db
-        self.init_session()
+class Handler(tornado.web.RequestHandler, Dict):
 
-    def on_finish(self):
-        self.save_session()
-        if self.db.session is not None: self.db.session.commit()
+    def __init__(self, application, request, **kwargs):
+        tornado.web.RequestHandler.__init__(self, application, request, **kwargs)
+        self.url = URL(self.request.full_url(), host=self.settings.host, scheme=self.settings.scheme)
+        self.HTTPError = tornado.web.HTTPError
+
+    def arguments(self):
+        return StringDict(**self.request.arguments)
 
     def render(self, *args, **kwargs):
-        for key in ['c', 'config', 'request', 'debug', 'url', 'session', 'db']:
-            if key not in kwargs:
-                kwargs[key] = eval("self."+key)
-        if 'handler' not in kwargs:
-            kwargs['handler'] = self
-        tornado.web.RequestHandler.render(self, *args, **kwargs)
-        if self.debug==True: print("rendered:", args[0])
+        if 'c' not in kwargs:
+            kwargs['c'] = self
+        super().render(self, *args, **kwargs)
 
     def write_error(self, status_code, **kwargs):
         self.set_status(status_code)
         self.render("http_error.html")
-
-    def check_xsrf_cookie(self):
-        pass
-
-    def arguments_to_dict(self):
-        d = Dict(**self.request.arguments)
-        for k in d.keys():
-            d[k] = d[k][0]      # only keep the first value for each key
-            if d[k]=='': d[k] = None
-        return d
 
     # == Session management == 
 
@@ -93,6 +76,6 @@ class RequestHandler(tornado.web.RequestHandler):
                     raise tornado.web.HTTPError(403)
             elif self.session.user.role != 'admin':
                 # *TODO*: check to see if the user has the given role
-                raise tornado.web.HTTPError(401)
+                raise self.HTTPError(401)
             return method(self, *args, **kwargs)
         return wrapper

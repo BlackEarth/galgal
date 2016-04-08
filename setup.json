@@ -19,7 +19,11 @@
     "test": []
   },
   "package_data": {
-    "": ["models/psql/*.sql", "templates/*.*"]
+    "": ["models/psql/*.sql", 
+        "templates/*.*", 
+        "templates/account/*.*", 
+        "templates/items/*.*", 
+        "templates/users/*.*"]
   },
   "data_files": []
 }

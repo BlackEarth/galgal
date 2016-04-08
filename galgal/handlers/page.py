@@ -1,9 +1,10 @@
 
 import os
 import tornado.web
-from .application import RequestHandler
 
-class WebpageHandler(RequestHandler):
+from .handler import Handler
+
+class PageHandler(Handler):
     # for now, require all users to be logged in.
     def prepare(self):
         if self.session.user is None:
