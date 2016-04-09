@@ -13,7 +13,7 @@
     "Programming Language :: Python :: 3"
   ],
   "entry_points": {},
-  "install_requires": ["bl", "tornado"],
+  "install_requires": ["bweb"],
   "extras_require": {
     "dev": [],
     "test": []
