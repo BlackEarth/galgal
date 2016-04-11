@@ -1,2 +1,2 @@
 
-from bl.db.model import Model
+from bsql.model import Model
